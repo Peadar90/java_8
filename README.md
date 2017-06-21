@@ -7,7 +7,7 @@ Lambda
 ------
 
 - An _anonymous function_ that allows you to pass methods as arguments.
-- No access modifier(private, public or protected).
+- No access modifier (private, public or protected).
 - No return type declaration and no name.
 - It can take zero or more parameters.
 - Parenthesis not required when using one parameter, e.g. a -> { do something }
@@ -59,7 +59,7 @@ Default Methods
 ---------------
 
 - Allows developers to add new methods to the interfaces without breaking the existing implementation of these interface.
-- Provides flexibility to allow interface define implementation which will use as default in the situation where a concrete class fails to provide an implementation for that method.
+- Provides flexibility to allow an interface to define an implementation which will be used as default in the situation where a concrete class fails to provide an implementation for that method.
 
 ```
 public interface oldInterface {
@@ -98,8 +98,9 @@ For Each
 ```
 List<String> names = getNames();
 
-for (String name : names)
+for (String name : names) {
     System.out.println(name);
+}
 ```
 
 - For Each Example Java 8

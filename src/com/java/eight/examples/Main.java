@@ -13,16 +13,9 @@ public class Main {
 
 //        forEachExample();
 
-//        methodReferenceExample();
-
 //        java7ComparatorExample();
 //        java8ComparatorExample();
 //        lambdaComparatorExample();
-
-//        performOperationOnCollectionJava7Example();
-//        streamMapExample();
-//        streamFilterExample();
-//        streamDistinctExample();
 
 //        functionalInterfacePredicateExample(number -> number % 2 == 0);
 //        functionalInterfaceBiPredicateExample(">", (number, incrementNumber) -> number > incrementNumber);
@@ -38,19 +31,26 @@ public class Main {
 //        functionalInterfaceImplementationExample("First Name Bat?", (Hero hero) -> hero.getFirstName().equals("Bat"), heroes);
 //        functionalInterfaceImplementationExample("Employee Number is 123456?", (Hero hero) -> hero.getEmployeeNumber() == 123456, heroes);
 //        functionalInterfaceImplementationExample("Salary > 2?", (Hero hero) -> hero.getSalary() > 2, heroes);
+//
+//        methodReferenceExample();
+//        methodReferenceToNoArgConstructorExample();
+//        methodReferenceToArgConstructorExample();
+
+//        performOperationOnCollectionJava7Example();
+//        streamMapExample();
+//        streamFilterExample();
+//        streamDistinctExample();
 
 //        defaultInterfaceExample(hero1);
     }
 
     private static void forEachExample() {
 
-        numbers.forEach(number -> System.out.println(number));
-    }
+        // lambda
+//        numbers.forEach(number -> System.out.println(number));
 
-
-    private static void methodReferenceExample() {
-
-        numbers.forEach(System.out::println);
+        // static method reference
+//        numbers.forEach(System.out::println);
     }
 
     private static void java7ComparatorExample() {
@@ -64,6 +64,7 @@ public class Main {
 
             @Override
             public int compare(Integer o1, Integer o2) {
+
                 return o1 - o2;
             }
         });
@@ -106,6 +107,77 @@ public class Main {
 //        lambdaNumbers.sort(Comparator.comparingInt(Integer::intValue));
     }
 
+    private static void functionalInterfacePredicateExample(final Predicate<Integer> predicate) {
+
+        numbers.forEach(number -> {
+
+            if (predicate.test(number)) {
+
+                System.out.println(number);
+            }
+        });
+    }
+
+    private static void functionalInterfaceBiPredicateExample(final String condition, final BiPredicate<Integer, Integer> predicate) {
+
+        numbers.forEach(number -> {
+
+            System.out.println(number + " " + condition + " " + ++number + " " + predicate.test(number, ++number));
+        });
+    }
+
+    private static void functionalInterfaceImplementationExample(final String condition, FunctionalInterfaceExample functionalInterfaceExample,
+                                                                 final List heroes) {
+
+        System.out.println(condition);
+
+        List<Hero> checked = new ArrayList<>();
+
+        heroes.forEach(heroToCheck -> {
+
+            if (functionalInterfaceExample.check((Hero) heroToCheck)) {
+
+                checked.add((Hero) heroToCheck);
+            }
+        });
+
+        checked.forEach(checkedHero -> {
+
+            System.out.println("- " + checkedHero.getFirstName() + " " + checkedHero.getLastName());
+        });
+
+        System.out.println("===================");
+    }
+
+    private static void methodReferenceExample() {
+
+        numbers.forEach(System.out::println);
+    }
+
+    private static void methodReferenceToNoArgConstructorExample() {
+
+        HeroProvider heroProvider = Hero::new;
+        Hero hero = heroProvider.getHero();
+
+        //the compiler infers the right constructor to call based on the context in which the constructor reference appears
+        System.out.println(hero.getFirstName());
+        System.out.println(hero.getLastName());
+        System.out.println(hero.getEmployeeNumber());
+        System.out.println(hero.getSalary());
+    }
+
+    private static void methodReferenceToArgConstructorExample() {
+
+        HeroWithArgProvider heroProvider = Hero::new;
+        Hero hero = heroProvider.getHero("Bat", "Girl", 654321, 3);
+
+        //the compiler infers the right constructor to call based on the context in which the constructor reference appears
+        System.out.println(hero.getFirstName());
+        System.out.println(hero.getLastName());
+        System.out.println(hero.getEmployeeNumber());
+        System.out.println(hero.getSalary());
+    }
+
     private static void performOperationOnCollectionJava7Example() {
 
         for (Integer number : numbers) {
@@ -124,7 +196,8 @@ public class Main {
 
         //or
 
-//        numbers.stream().map(number -> number * 2).collect(Collectors.toList()).forEach(System.out::println);
+        numbers.stream().map(number -> number * 2).collect(Collectors.toList()).forEach(System.out::println);
+//        numbers.stream().map(number -> String.valueOf(number)).collect(Collectors.toList()).forEach(System.out::println);
     }
 
     private static void streamFilterExample() {
@@ -150,54 +223,13 @@ public class Main {
         numbersDuplicates.stream().distinct().collect(Collectors.toList()).forEach(System.out::println);
     }
 
-    private static void functionalInterfacePredicateExample(final Predicate<Integer> predicate) {
-
-        numbers.forEach(number -> {
-
-            if (predicate.test(number)) {
-
-                System.out.println(number);
-            }
-        });
-    }
-
-    private static void functionalInterfaceBiPredicateExample(final String condition, final BiPredicate<Integer, Integer> predicate) {
-
-        numbers.forEach(number -> {
-
-            System.out.println(number + " " + condition + " " + ++number + " " + predicate.test(number, ++number));
-        });
-    }
-
-    private static void functionalInterfaceImplementationExample(final String condition, FunctionalInterfaceExample functionalInterfaceExample,
-                                                                       final List heroes) {
-
-        System.out.println(condition);
-
-        List<Hero> checked = new ArrayList<>();
-
-        heroes.forEach(heroToCheck -> {
-
-            if (functionalInterfaceExample.check((Hero) heroToCheck)) {
-
-                checked.add((Hero) heroToCheck);
-            }
-        });
-
-        checked.forEach(checkedHero -> {
-
-            System.out.println("- " + checkedHero.getFirstName() + " " + checkedHero.getLastName());
-        });
-
-        System.out.println("===================");
-    }
-
     private static void defaultInterfaceExample(final Hero hero) {
 
         System.out.println(hero.getFirstName().getClass().getName() + " :: " + hero.getFirstName());
         System.out.println(hero.getLastName().getClass().getName() + " :: " + hero.getLastName());
         System.out.println("int :: " + hero.getEmployeeNumber());
         System.out.println("int :: " + hero.getSalary());
+
         System.out.println(hero.getSalaryNewDefaultMethod().getClass().getName() + " :: " + hero.getSalaryNewDefaultMethod());
     }
 

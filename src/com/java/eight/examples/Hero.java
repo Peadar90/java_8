@@ -13,7 +13,13 @@ public class Hero implements DefaultMethodExampleOldInterface {
 
     private int salary;
 
-    public Hero() {}
+    public Hero() {
+
+        this.firstName = "Bat";
+        this.lastName = "Man";
+        this.employeeNumber = 123456;
+        this.salary = 2;
+    }
 
     public Hero(final String firstName, final String lastName, final int employeeNumber, final int salary) {
 
